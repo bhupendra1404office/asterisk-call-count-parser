@@ -1,0 +1,5 @@
+2023-12-26T14:10:01.388+0300 INFO, 66 active channels 66 of 5000 max active calls ( 1.32% of capacity) 1108495 calls processed
+2023-12-26T14:15:01.388+0300 INFO, 79 active channels 79 of 5000 max active calls ( 1.58% of capacity) 1111689 calls processed
+2023-12-26T14:20:01.388+0300 INFO, 79 active channels 79 of 5000 max active calls ( 1.58% of capacity) 0 calls processed
+2023-12-26T14:25:01.388+0300 INFO, 77 active channels 77 of 5000 max active calls ( 1.54% of capacity) 10 calls processed
+2023-12-26T14:30:01.388+0300 INFO, 67 active channels 67 of 5000 max active calls ( 1.34% of capacity) 81 calls processed
