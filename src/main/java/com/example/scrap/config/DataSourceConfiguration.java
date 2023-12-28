@@ -33,8 +33,8 @@ import org.springframework.context.annotation.PropertySource;
         entityManagerFactoryRef = "scrapEntityManagerFactory",
         transactionManagerRef = "scrapTransactionManager"
 )
-@PropertySource("classpath:database.properties")
-//@PropertySource("file:////home/core/scrap/database.properties")
+//@PropertySource("classpath:database.properties")
+@PropertySource("file:////home/core/scrap/database.properties")
 public class DataSourceConfiguration {
 
     @Bean

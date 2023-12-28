@@ -1,21 +1,18 @@
-package com.example.scrap.controller;
+package com.example.scrap.scheduler;
 
 import com.example.scrap.model.Id;
 import com.example.scrap.model.IncomingCallsDetails;
 import com.example.scrap.repository.IncomingCallsRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -25,10 +22,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
-@RestController
-@RequestMapping(path = "/api")
-@CrossOrigin(origins = "*",allowedHeaders = "*")
-public class api {
+@Component
+public class Scheduler {
 
     @Value("${app.log.file.location}")
     private String filePath;
@@ -39,10 +34,13 @@ public class api {
     @Autowired
     IncomingCallsRepository incomingCallsRepository;
 
-    @GetMapping("/update-data")
+    @Scheduled(cron = "${logs.schedular}")
     public String updateData(){
+        String filename = filePath;
+        filename = filename.replaceAll("YYYY-DD-MM", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        log.info("Running scheduled task FILE : {}",filename);
         long ans = 0l;
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = br.readLine()) != null) {
                 try{
@@ -82,8 +80,7 @@ public class api {
                                 }
                             }
                         }catch (Exception e){
-                            e.printStackTrace();
-                            log.info("Error in getting last data");
+                            log.info("Error in getting last data "+e.getMessage());
                         }
 
                         IncomingCallsDetails details = new IncomingCallsDetails();
@@ -100,11 +97,11 @@ public class api {
                         System.out.println("No match found in the log line.");
                     }
                 }catch (Exception e){
-                    e.printStackTrace();
-                    log.info("Error in reading line {}",line);
+                    log.info("Error in reading line {} : ERROR :{}",line,e.getMessage());
                 }
             }
         } catch (IOException e) {
+            log.info("Error found :{}",e.getMessage());
             e.printStackTrace();
         }
         return "Total entries added :"+ans;
