@@ -12,7 +12,7 @@ import java.util.Properties;
 
 @SpringBootApplication
 @ComponentScan({"com.example.scrap.*"})
-public class ScrapApplication extends ServletInitializer{
+public class ScrapApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(ScrapApplication.class, args);
