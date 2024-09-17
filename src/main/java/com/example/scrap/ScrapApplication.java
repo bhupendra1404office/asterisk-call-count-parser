@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import java.util.Properties;
 
 @SpringBootApplication
+@EnableScheduling
 @ComponentScan({"com.example.scrap.*"})
 public class ScrapApplication extends ServletInitializer{
 
